@@ -44,6 +44,90 @@ SPIRE350=fits.getdata('G54_SPIRE_350.fits')
 SPIRE500=fits.getdata('G54_SPIRE_500.fits')
 FINAL870=fits.getdata('G54.1_FINAL_870.fits')
 
+#some extra stuff to enable automatic bounds for images
+limits24 = WCS('G54_Spitzer_24.fits')
+limits70 = WCS('G54_PACS_70.fits')
+limits160 = WCS('G54_PACS_160.fits')
+limits250 = WCS('G54_SPIRE_250.fits')
+limits350 = WCS('G54_SPIRE_350.fits')
+limits500 = WCS('G54_SPIRE_500.fits')
+limits870 = WCS('G54.1_FINAL_870.fits')
+
+#%%
+
+#the bounds of each image are anchored by the pixel coordinates (50,50) and (100,100) in the PACS 70 image
+baselftbound1=limits70.all_pix2world(49,50,0)[0]
+baselftbound2=limits70.all_pix2world(51,50,0)[0]
+basergtbound1=limits70.all_pix2world(99,50,0)[0]
+basergtbound2=limits70.all_pix2world(101,50,0)[0]
+basetopbound1=limits70.all_pix2world(50,99,0)[1]
+basetopbound2=limits70.all_pix2world(50,101,0)[1]
+basebotbound1=limits70.all_pix2world(50,49,0)[1]
+basebotbound2=limits70.all_pix2world(50,51,0)[1]
+
+
+for i in range(SPIRE250.shape[0]+1): #the limits for this loop at that of SPIRE250 as it had the largest dimensions
+    
+    if (baselftbound1>limits70.all_pix2world(i,50,0)[0])&(limits70.all_pix2world(i,50,0)[0]>baselftbound2):
+        leftbound70=i
+    if (basergtbound1>limits70.all_pix2world(i,50,0)[0])&(limits70.all_pix2world(i,50,0)[0]>basergtbound2):
+        rightbound70=i
+    if (basebotbound1<limits70.all_pix2world(50,i,0)[1])&(limits70.all_pix2world(50,i,0)[1]<basebotbound2):
+        bottombound70=i
+    if (basetopbound1<limits70.all_pix2world(50,i,0)[1])&(limits70.all_pix2world(50,i,0)[1]<basetopbound2):
+        topbound70=i
+
+#PACS 160 bounds
+    if (baselftbound1>limits160.all_pix2world(i,50,0)[0])&(limits160.all_pix2world(i,50,0)[0]>baselftbound2):
+        leftbound160=i
+    if (basergtbound1>limits160.all_pix2world(i,50,0)[0])&(limits160.all_pix2world(i,50,0)[0]>basergtbound2):
+        rightbound160=i
+    if (basebotbound1<limits160.all_pix2world(50,i,0)[1])&(limits160.all_pix2world(50,i,0)[1]<basebotbound2):
+        bottombound160=i
+    if (basetopbound1<limits160.all_pix2world(50,i,0)[1])&(limits160.all_pix2world(50,i,0)[1]<basetopbound2):
+        topbound160=i
+
+#SPIRE 250 bounds
+    if (baselftbound1>limits250.all_pix2world(i,50,0)[0])&(limits250.all_pix2world(i,50,0)[0]>baselftbound2):
+        leftbound250=i
+    if (basergtbound1>limits250.all_pix2world(i,50,0)[0])&(limits250.all_pix2world(i,50,0)[0]>basergtbound2):
+        rightbound250=i
+    if (basebotbound1<limits250.all_pix2world(50,i,0)[1])&(limits250.all_pix2world(50,i,0)[1]<basebotbound2):
+        bottombound250=i
+    if (basetopbound1<limits250.all_pix2world(50,i,0)[1])&(limits250.all_pix2world(50,i,0)[1]<basetopbound2):
+        topbound250=i
+        
+#SPIRE 350 bounds
+    if (baselftbound1>limits350.all_pix2world(i,50,0)[0])&(limits350.all_pix2world(i,50,0)[0]>baselftbound2):
+        leftbound350=i
+    if (basergtbound1>limits350.all_pix2world(i,50,0)[0])&(limits350.all_pix2world(i,50,0)[0]>basergtbound2):
+        rightbound350=i
+    if (basebotbound1<limits350.all_pix2world(50,i,0)[1])&(limits350.all_pix2world(50,i,0)[1]<basebotbound2):
+        bottombound350=i
+    if (basetopbound1<limits350.all_pix2world(50,i,0)[1])&(limits350.all_pix2world(50,i,0)[1]<basetopbound2):
+        topbound350=i
+
+#SPIRE 500 bounds
+    if (baselftbound1>limits500.all_pix2world(i,50,0)[0])&(limits500.all_pix2world(i,50,0)[0]>baselftbound2):
+        leftbound500=i
+    if (basergtbound1>limits500.all_pix2world(i,50,0)[0])&(limits500.all_pix2world(i,50,0)[0]>basergtbound2):
+        rightbound500=i
+    if (basebotbound1<limits500.all_pix2world(50,i,0)[1])&(limits500.all_pix2world(50,i,0)[1]<basebotbound2):
+        bottombound500=i
+    if (basetopbound1<limits500.all_pix2world(50,i,0)[1])&(limits500.all_pix2world(50,i,0)[1]<basetopbound2):
+        topbound500=i
+        
+#LABOCA 870 bounds
+    if (baselftbound1>limits870.all_pix2world(i,50,0)[0])&(limits870.all_pix2world(i,50,0)[0]>baselftbound2):
+        leftbound870=i
+    if (basergtbound1>limits870.all_pix2world(i,50,0)[0])&(limits870.all_pix2world(i,50,0)[0]>basergtbound2):
+        rightbound870=i
+    if (basebotbound1<limits870.all_pix2world(50,i,0)[1])&(limits870.all_pix2world(50,i,0)[1]<basebotbound2):
+        bottombound870=i
+    if (basetopbound1<limits870.all_pix2world(50,i,0)[1])&(limits870.all_pix2world(50,i,0)[1]<basetopbound2):
+        topbound870=i
+#%%
+    
 #setting vmin and vmax
 vmin=-0.03
 vmax=1
@@ -98,8 +182,8 @@ lon[t].set_ticklabel_visible(False) #choosing to show or hide the x axis
 lon[t].set_ticks_visible(False)
 lat[t].set_ticklabel_visible(True) #choosing to show or hide the y axis
 lat[t].set_ticks_visible(True)
-ax[t].set_xlim((50, 100)) #restricting field of view
-ax[t].set_ylim((50, 100)) #restricting field of view
+ax[t].set_xlim(leftbound70,rightbound70) #restricting field of view
+ax[t].set_ylim(bottombound70,topbound70) #restricting field of view
 
 
 
@@ -122,8 +206,8 @@ lon[t].set_ticklabel_visible(False) #choosing to show or hide the x axis
 lon[t].set_ticks_visible(False)
 lat[t].set_ticklabel_visible(False) #choosing to show or hide the y axis
 lat[t].set_ticks_visible(False)
-ax[t].set_xlim((50, 100)) #restricting field of view
-ax[t].set_ylim((50, 100)) #restricting field of view
+ax[t].set_xlim(leftbound160,rightbound160) #restricting field of view
+ax[t].set_ylim(bottombound160,topbound160) #restricting field of view
 
 
 
@@ -149,8 +233,8 @@ lon[t].set_ticklabel_visible(False) #choosing to show or hide the x axis
 lon[t].set_ticks_visible(False)
 lat[t].set_ticklabel_visible(False) #choosing to show or hide the y axis
 lat[t].set_ticks_visible(False)
-ax[t].set_xlim((2790,2890)) #restricting field of view
-ax[t].set_ylim((1076,1176)) #restricting field of view
+ax[t].set_xlim(leftbound250,rightbound250) #restricting field of view
+ax[t].set_ylim(bottombound250,topbound250) #restricting field of view
 
 
 # =============================================================================
@@ -172,11 +256,11 @@ lon[t].set_ticklabel_visible(True) #choosing to show or hide the x axis
 lon[t].set_ticks_visible(True)
 lat[t].set_ticklabel_visible(True) #choosing to show or hide the y axis
 lat[t].set_ticks_visible(True)
-ax[t].set_xlim((1677,1737)) #restricting field of view
-ax[t].set_ylim((652,712)) #restricting field of view
+ax[t].set_xlim(leftbound350,rightbound350) #restricting field of view
+ax[t].set_ylim(bottombound350,topbound350) #restricting field of view
 
 # =============================================================================
-# SPIRE 500 IMAGE - 44x44
+# SPIRE 500 IMAGE - 43x43
 # =============================================================================
 t=4
 ax.append(plt.subplot(gs1[t], projection=wcs500)) #creating subplot and assigning correct wcs
@@ -194,11 +278,11 @@ lon[t].set_ticklabel_visible(True) #choosing to show or hide the x axis
 lon[t].set_ticks_visible(True)
 lat[t].set_ticklabel_visible(False) #choosing to show or hide the y axis
 lat[t].set_ticks_visible(False)
-ax[t].set_xlim((1198,1240)) #restricting field of view
-ax[t].set_ylim((465,507)) #restricting field of view
+ax[t].set_xlim(leftbound500,rightbound500) #restricting field of view
+ax[t].set_ylim(bottombound500,topbound500) #restricting field of view
 
 # =============================================================================
-# LABOCA 870 IMAGE
+# LABOCA 870 IMAGE - 75x75
 # =============================================================================
 t=5
 ax.append(plt.subplot(gs1[t], projection=wcs870)) #creating subplot and assigning correct wcs
@@ -216,7 +300,7 @@ lon[t].set_ticklabel_visible(True) #choosing to show or hide the x axis
 lon[t].set_ticks_visible(True)
 lat[t].set_ticklabel_visible(False) #choosing to show or hide the y axis
 lat[t].set_ticks_visible(False)
-ax[t].set_xlim(((128-36),(128+36))) #restricting field of view
-ax[t].set_ylim(((136-36),(136+36))) #restricting field of view
+ax[t].set_xlim(leftbound870,rightbound870) #restricting field of view
+ax[t].set_ylim(bottombound870,topbound870) #restricting field of view
 
 
